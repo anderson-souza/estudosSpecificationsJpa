@@ -15,9 +15,16 @@ public class ReferenciasService {
 	@Autowired
 	private ReferenciaRepository referenciasRepository;
 
-	public List<Referencias> listarReferencias(String cep, Long bairroId, Long logradouroId) {
+	public List<Referencias> listarReferenciasFiltrandoCepBairroIDLogradouroID(String cep, Long bairroId,
+			Long logradouroId) {
 		return referenciasRepository
-				.findAll(ReferenciaSpecification.buscaPorCepOuBairroOuRua(cep, bairroId, logradouroId));
+				.findAll(ReferenciaSpecification.buscaCombinadaPorCepOuBairroOuRua(cep, bairroId, logradouroId));
+	}
+
+	public List<Referencias> listarReferenciasFiltrandoCepBairroNomeLogradouroNome(String cep, String bairroNome,
+			String logradouroNome) {
+		return referenciasRepository.findAll(ReferenciaSpecification
+				.buscaCombinadaPorCepOuNomeBairroOuNomeLogradouro(cep, bairroNome, logradouroNome));
 	}
 
 	public void salvarReferencia(Referencias referencia) {

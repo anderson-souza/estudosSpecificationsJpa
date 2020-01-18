@@ -20,11 +20,21 @@ public class ReferenciasResource {
 	@Autowired
 	private ReferenciasService referenciasService;
 
-	@GetMapping
-	public List<Referencias> buscar(@RequestParam(required = false, name = "cep") String cep,
+	@GetMapping("/buscar-filtro-ids")
+	public List<Referencias> buscarFiltrandoCepBairroIDLogradouroID(
+			@RequestParam(required = false, name = "cep") String cep,
 			@RequestParam(required = false, name = "bairroId") Long bairroId,
 			@RequestParam(required = false, name = "logradouroId") Long logradouroId) {
-		return referenciasService.listarReferencias(cep, bairroId, logradouroId);
+		return referenciasService.listarReferenciasFiltrandoCepBairroIDLogradouroID(cep, bairroId, logradouroId);
+	}
+
+	@GetMapping("/buscar-filtro-nomes")
+	public List<Referencias> buscarFiltrandoCepBairroNomeLogradouroNome(
+			@RequestParam(required = false, name = "cep") String cep,
+			@RequestParam(required = false, name = "bairroNome") String bairroNome,
+			@RequestParam(required = false, name = "logradouroNome") String logradouroNome) {
+		return referenciasService.listarReferenciasFiltrandoCepBairroNomeLogradouroNome(cep, bairroNome,
+				logradouroNome);
 	}
 
 	@PostMapping
