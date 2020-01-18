@@ -5,6 +5,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.aps.domain.Referencias;
@@ -20,21 +21,16 @@ public class ReferenciaSpecification {
 
 				Predicate predicate = criteriaBuilder.and();
 
-				/*
-				 * Join<Referencias, Bairro> joinBairro = root.join("bairro"); Join<Referencias,
-				 * Logradouro> joinLogradouro = root.join("logradouro");
-				 */
-
-				if (cep != null) {
-					predicate = criteriaBuilder.and(root.get("cep").in(cep));
+				if (!StringUtils.isAllEmpty(cep)) {
+					predicate.getExpressions().add(criteriaBuilder.like(root.get("cep"), "%" + cep + "%"));
 				}
 
 				if (bairroId != null) {
-					predicate = criteriaBuilder.and(root.get("bairro").in(bairroId));
+					predicate.getExpressions().add(criteriaBuilder.and(root.get("bairro").in(bairroId)));
 				}
 
 				if (logradouroId != null) {
-					predicate = criteriaBuilder.and(root.get("logradouro").in(logradouroId));
+					predicate.getExpressions().add(criteriaBuilder.and(root.get("logradouro").in(logradouroId)));
 				}
 
 				return predicate;

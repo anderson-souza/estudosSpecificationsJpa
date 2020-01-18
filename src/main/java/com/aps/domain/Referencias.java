@@ -13,15 +13,13 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "referencia")
+@Table(name = "referencias")
 @NoArgsConstructor
 public class Referencias {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	private String nome;
 
 	private String cep;
 
