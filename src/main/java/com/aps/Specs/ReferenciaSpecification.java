@@ -59,14 +59,15 @@ public final class ReferenciaSpecification {
 
 			if (!StringUtils.isAllEmpty(nomeBairro)) {
 				final Join<Referencias, Bairro> joinBairro = root.join("bairro", JoinType.INNER);
-				predicate.getExpressions()
-						.add(criteriaBuilder.and(criteriaBuilder.like(joinBairro.get("nome"), "%" + nomeBairro + "%")));
+				predicate.getExpressions().add(criteriaBuilder.and(criteriaBuilder
+						.like(criteriaBuilder.upper(joinBairro.get("nome")), "%" + nomeBairro.toUpperCase() + "%")));
 			}
 
 			if (!StringUtils.isAllEmpty(nomeLogradouro)) {
 				final Join<Referencias, Logradouro> joinLogradouro = root.join("logradouro", JoinType.INNER);
-				predicate.getExpressions().add(criteriaBuilder
-						.and(criteriaBuilder.like(joinLogradouro.get("nome"), "%" + nomeLogradouro + "%")));
+				predicate.getExpressions()
+						.add(criteriaBuilder.and(criteriaBuilder.like(criteriaBuilder.upper(joinLogradouro.get("nome")),
+								"%" + nomeLogradouro.toUpperCase() + "%")));
 			}
 
 			return predicate;

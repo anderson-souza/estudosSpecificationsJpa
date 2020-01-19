@@ -2,4 +2,8 @@ spring:
     jpa:
       show-sql: true
       hibernate:
-        ddl-auto: update     
+        ddl-auto: update
+
+logging:
+  level.org.hibernate.SQL: DEBUG
+  level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
