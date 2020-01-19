@@ -1,4 +1,4 @@
-package com.aps.Specs;
+package com.aps.specs;
 
 public class ReferenciaQuerydsl {
 

@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.aps.Specs.ReferenciaSpecification;
 import com.aps.domain.Referencias;
 import com.aps.repository.ReferenciaRepository;
+import com.aps.specs.ReferenciaSpecification;
 
 @Service
 public class ReferenciasService {

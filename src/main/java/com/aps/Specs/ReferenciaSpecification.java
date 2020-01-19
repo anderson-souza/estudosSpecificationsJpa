@@ -1,4 +1,4 @@
-package com.aps.Specs;
+package com.aps.specs;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -14,7 +14,11 @@ import com.aps.domain.Bairro;
 import com.aps.domain.Logradouro;
 import com.aps.domain.Referencias;
 
-public class ReferenciaSpecification {
+public final class ReferenciaSpecification {
+
+	private ReferenciaSpecification() {
+
+	}
 
 	public static Specification<Referencias> buscaCombinadaPorCepOuBairroOuRua(String cep, Long bairroId,
 			Long logradouroId) {
@@ -45,32 +49,27 @@ public class ReferenciaSpecification {
 
 	public static Specification<Referencias> buscaCombinadaPorCepOuNomeBairroOuNomeLogradouro(String cep,
 			String nomeBairro, String nomeLogradouro) {
-		return new Specification<Referencias>() {
+		return (root, query, criteriaBuilder) -> {
 
-			@Override
-			public Predicate toPredicate(Root<Referencias> root, CriteriaQuery<?> query,
-					CriteriaBuilder criteriaBuilder) {
+			final Predicate predicate = criteriaBuilder.and();
 
-				Predicate predicate = criteriaBuilder.and();
-
-				if (!StringUtils.isAllEmpty(cep)) {
-					predicate.getExpressions().add(criteriaBuilder.like(root.get("cep"), "%" + cep + "%"));
-				}
-
-				if (!StringUtils.isAllEmpty(nomeBairro)) {
-					Join<Referencias, Bairro> joinBairro = root.join("bairro", JoinType.INNER);
-					predicate.getExpressions().add(
-							criteriaBuilder.and(criteriaBuilder.like(joinBairro.get("nome"), "%" + nomeBairro + "%")));
-				}
-
-				if (!StringUtils.isAllEmpty(nomeLogradouro)) {
-					Join<Referencias, Logradouro> joinLogradouro = root.join("logradouro", JoinType.INNER);
-					predicate.getExpressions().add(criteriaBuilder
-							.and(criteriaBuilder.like(joinLogradouro.get("nome"), "%" + nomeLogradouro + "%")));
-				}
-
-				return predicate;
+			if (!StringUtils.isAllEmpty(cep)) {
+				predicate.getExpressions().add(criteriaBuilder.like(root.get("cep"), "%" + cep + "%"));
 			}
+
+			if (!StringUtils.isAllEmpty(nomeBairro)) {
+				final Join<Referencias, Bairro> joinBairro = root.join("bairro", JoinType.INNER);
+				predicate.getExpressions()
+						.add(criteriaBuilder.and(criteriaBuilder.like(joinBairro.get("nome"), "%" + nomeBairro + "%")));
+			}
+
+			if (!StringUtils.isAllEmpty(nomeLogradouro)) {
+				final Join<Referencias, Logradouro> joinLogradouro = root.join("logradouro", JoinType.INNER);
+				predicate.getExpressions().add(criteriaBuilder
+						.and(criteriaBuilder.like(joinLogradouro.get("nome"), "%" + nomeLogradouro + "%")));
+			}
+
+			return predicate;
 		};
 	}
 

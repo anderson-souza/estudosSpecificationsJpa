@@ -18,7 +18,7 @@ import com.github.javafaker.Faker;
 @Component
 public class DatabaseInitializer implements ApplicationRunner {
 
-	private final int QUANTIDADE_REPETICOES = 100;
+	private static final int QUANTIDADE_REPETICOES = 100;
 
 	@Autowired
 	private BairroService bairroService;
@@ -63,10 +63,10 @@ public class DatabaseInitializer implements ApplicationRunner {
 			referencia.setCep(faker.address().zipCode());
 
 			Bairro bairro = new Bairro();
-			bairro.setId(new Long(faker.number().numberBetween(1, QUANTIDADE_REPETICOES)));
+			bairro.setId((long) faker.number().numberBetween(1, QUANTIDADE_REPETICOES));
 
 			Logradouro logradouro = new Logradouro();
-			logradouro.setId(new Long(faker.number().numberBetween(1, QUANTIDADE_REPETICOES)));
+			logradouro.setId((long) faker.number().numberBetween(1, QUANTIDADE_REPETICOES));
 
 			referencia.setBairro(bairro);
 			referencia.setLogradouro(logradouro);
